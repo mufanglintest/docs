@@ -7,17 +7,61 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
 </head>
 <body>
-  <div id="app"></div>
+  <div id="app">加载中</div>
   <script>
     window.$docsify = {
-      name: '',
-      repo: '',
-      loadSidebar: true
+      name: '一不小心的文档',
+      repo: 'https://github.com/mufanglintest/docs',
+      loadSidebar: true,
+      loadNavbar: true,
+      coverpage: true,
+      auto2top: true,
+      maxLevel: 2,
+      subMaxLevel: 4,
+      search: {
+        placeholder: '搜索',
+        noData: '找不到结果!',
+        depth: 3
+      },
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md',//防止意外回退
+        '/.*/_navbar.md': '/_navbar.md'
+      },
+      formatUpdated: '{YYYY}-{MM}-{DD}',
+	      // plugins: [
+	      // function (hook, vm) {
+	      //   hook.beforeEach(function (html) {
+	      //     return html
+	      //       + '<hr/>'
+	      //       + '上次更新：{docsify-updated} '
+	      //   })
+	      // },
+       // 完整配置参数
+      // search: {
+      //   maxAge: 86400000,               // 过期时间，单位毫秒，默认一天
+      //   paths: [],                      // or 'auto'，匹配文件路径
+      //   // placeholder: 'Type to search',  // 搜索提示框文字， 支持本地化，例子在下面
+      //   placeholder: {
+      //     '/': '搜索',
+      //     // '/': 'Type to search'
+      //   },
+      //   //noData: 'No Results!',          // 找不到结果文字提示，支持本地化，例子在下面
+      //   noData: {
+      //     '/': '找不到结果',
+      //     // '/': 'No Results'
+      //   },
+      //   depth: 2,                       // 搜索标题的最大程级, 1 - 6
+      // }
     }
   </script>
 
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+    <!-- 引入搜索模块 -->
+  <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/external-script.js"></script>
 </body>
 </html>
