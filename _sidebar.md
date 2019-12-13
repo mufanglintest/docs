@@ -3,7 +3,7 @@
 	* [autotest](autotest/test)
 
 * 页面自动化
-	* [selenium]()
+	* [selenium](autotest/test)
 
 * 移动端自动化
 	* [appnium]()
