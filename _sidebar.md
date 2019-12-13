@@ -1,9 +1,10 @@
 
 * 接口自动化
 	* [autotest](autotest/test)
+	* [jorge-testui](autotest/jorge-testui)
 
 * 页面自动化
-	* [selenium](autotest/test)
+	* [selenium]()
 
 * 移动端自动化
 	* [appnium]()
