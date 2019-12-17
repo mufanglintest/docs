@@ -2,9 +2,13 @@
 ## 一、功能介绍
 ### 系统管理
 可管理被测系统
+
 ### 接口管理
 可管理被测接口
+
 ### 用例管理
+
+
 1. 可根据需要增、删、改、查指定表（X）
 2. 可组装请求参数
 3. 可发送HTTP请求（后期需要支持dubbo）
@@ -13,23 +17,31 @@
 6. 可复制用例并对其进行修改
 7. 单条用例执行
 8. 批量执行用例
+
+
 ### 数据统计
 1. 统计批量执行总用例数
 2. 总成功数
 3. 总失败数
+
+
 ## 二、框架使用
+
 ### 1、工程目录介绍
+
 ![ace71110.png](../images/6c3d7e18-c2c1-40dc-a799-8984940cd946/ace71110.png)
 
 #### assemble
 >该目录下存放系统启动配置文件，以及使用main启动工程
 
 ![092bf796.png](../images/6c3d7e18-c2c1-40dc-a799-8984940cd946/092bf796.png)
+
 **测试工程的数据库、dubbo、redis及其它相关配置都在该文件里进行修改**
 #### core
 >该目录下存放该系统的所有核心功能，以及所需要调用的系统的dao、entity、service
 
 ![29bd0933.png](../images/6c3d7e18-c2c1-40dc-a799-8984940cd946/29bd0933.png)
+
 - database目录存放各个系统的dao、entity、service类，可在此目录下编写操作数据库的方法
 - platform目录存放的系统核心表的dao、entity、service类，及Boss页面相关功能
 - 其它包下存放的为框架核心处理逻辑，可暂不关心，如果需要进行二次开发可仔细查看源码
@@ -41,6 +53,7 @@
 >该目录存放所有的测试用例
 
 ![89fdf9e3.png](../images/6c3d7e18-c2c1-40dc-a799-8984940cd946/89fdf9e3.png)
+
 - message目录存放所有用例的请求参数对象
 - 其它目录存入各个子系统的用例执行代码
 
@@ -68,6 +81,7 @@ acooly.mybatis.multi.acooly.scanPackage=com.autotest.hjc
 # 配置为主数据库，多个数据源时只能配置一个主数据库
 acooly.mybatis.multi.acooly.primary=true
 ```
+
 如果我们的被测对象对单系统，那我们只需要配置一个数据库连接即可，但是在我们的测试过程中很多情况会遇到soa的系统，那么我们就需要连接多个数据库，对应多个系统，我们只需要在配置文件中启用多数据源功能，并配置相应的数据源即可。
 
 ```
@@ -81,6 +95,7 @@ mock.ds.password=123456
 acooly.mybatis.multi.mock.dsPrefix=mock.ds
 acooly.mybatis.multi.mock.scanPackage=com.autotest.mock
 ```
+
 以上配置为我多加了一个mock系统的数据源配置，如果有更多的系统就按照以上方式进行配置即可。
 在soa的系统中我们可能会进行facade的接口测试，那么我们就需要对dubbo进行配置。
 
