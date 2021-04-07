@@ -1,6 +1,6 @@
 
 * 接口自动化
-	* [autotest](autotest/test)
+	* [autotest](autotest/autotest)
 	* [jorge-testui](autotest/jorge-testui)
 
 * 页面自动化
