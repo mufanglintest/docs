@@ -383,6 +383,73 @@ SignFacade signFacade;
 
 ## 三、Mock接口
 
+#### 1.新建一个子工程
+在测试工程中新增加一个mock子工程，在该目录下存放需要mock的接口
+![2beeb649.png](../images/6c3d7e18-c2c1-40dc-a799-8984940cd946/2beeb649.png)
+
+#### 2.新建mock类
+在mock模块下新建一个类继承AbstractMockGatewayService类，mock的类名格式：service名+Service，并重写executeGateway方法，在类上加上@MockGatewayAnnotationService注解。
+
+```
+@Slf4j
+@MockGatewayAnnotationService(gatewayApi = GatewayChannelApiEnum.TEST, desc = "test", owner = "zdl")
+public class TestGatewayMock extends AbstractMockGatewayService<HttpServletRequest, MockResponseResult> {
+    @Override
+    public void executeGateway(HttpServletRequest order, MockResponseResult result) throws Exception {
+        log.info("199999");
+    }
+}
+```
+
+在executeGateway方法中实现自己的mock内容
+
+#### 3.网关系统新建请求工具类
+在网关系统（我这里是请求的银行支付渠道，具体在那个系统创建视自己的情况而定）新建MockRequestUtils工具类，在该类中组装请求mock系统的请求方法，以及解析mock系统返回的响应参数。
+
+```
+@Service
+public class MockRequestUtils {
+    @Value("${acooly.openapi.client.mock.gatewayUrl}")
+    private String openMockGatewayUrl;
+
+    /**
+     * 富民无卡支付短信发送
+     *
+     * @param request
+     * @param response
+     */
+    public void fMQuickPaymentConsumeSmsService(FbankqftQuickPaymentConsumeSmsRequest request, FbankqftQuickPaymentConsumeSmsResponse response) {
+        JSONObject jSONObject = new JSONObject();
+        jSONObject.put("service", "QuickPaymentConsumeSms");
+        jSONObject.put("data", JSONObject.toJSONString(request).toString());
+        String responseBody;
+        String body = jSONObject.toString();
+        Map<String, String> requestHeader = Maps.newTreeMap();
+        requestHeader.put("x-api-signType", "MD5");
+        HttpRequest httpRequest = HttpRequest.post(openMockGatewayUrl).headers(requestHeader)
+                .contentType("application/json").followRedirects(false).send(body);
+        responseBody = httpRequest.body();
+        JSONObject resString = JSON.parseObject(responseBody);
+        JSONObject datas = JSON.parseObject(resString.get("data").toString());
+        FbankqftResponseHead fbankqftResponseHead = new FbankqftResponseHead();
+        fbankqftResponseHead.setRspCode(datas.get("code").toString());
+        fbankqftResponseHead.setRspMsg(datas.get("message").toString());
+        response.setResponseHead(fbankqftResponseHead);
+    }
+}
+```
+要网关业务代码请求银行时改为调用Mock方法
+
+```
+if(!Apps.getEnvironment().acceptsProfiles("online")&&!gatewayProperties.getExcludeChannelMock().contains(order.getGatewayChannelApi())) {
+                mockRequestUtils.fMQuickPaymentConsumeSmsService(request,response);
+            }else{
+                response = fbankqftApiService.quickPaymentConsumeSms(request);
+            }
+```
+![11122bfc.png](../images/6c3d7e18-c2c1-40dc-a799-8984940cd946/11122bfc.png)
+这样就能够开心的使用银行mock了
+
 ## 四、后续功能
 1. 集成selenium，进行UI自动化测试
 2. 集成appium，进行APP自动化测试
